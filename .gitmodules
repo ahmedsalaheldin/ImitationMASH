@@ -1,0 +1,3 @@
+[submodule "mash-simulator"]
+	path = mash-simulator
+	url = https://github.com/idiap/mash-simulator.git
