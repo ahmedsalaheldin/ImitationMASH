@@ -14,7 +14,7 @@ LINK_DIRECTORIES("${CMAKE_CURRENT_SOURCE_DIR}/mash-simulator/build/bin")
 #specify target and source
 add_executable(client Client.cpp)
 #add_executable(CNNplayAgent CNNplayAgent.cpp)
-add_executable(teacherAgent teacherAgent.cpp)
+#add_executable(teacherAgent teacherAgent.cpp)
 
 
 #link target to external libraries
