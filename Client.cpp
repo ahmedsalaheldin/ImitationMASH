@@ -28,7 +28,7 @@ void writeDataset(ofstream* dataset,ofstream* target, unsigned char*data, string
 		average = 0.2126*(float)data[i] + 0.7152*(float)data[i+1] + 0.0722*(float)data[i+2]; // get luminance map from 3 channel image
 		*dataset << (int)average<<",";
 	}
-	average = 0.2126*(float)data[i] + 0.7152*(float)data[i+1] + 0.0722*(float)data[i+2];
+	average = 0.2126*(float)data[datasize-3] + 0.7152*(float)data[datasize-2] + 0.0722*(float)data[datasize-1];
 		*dataset << (int)average;
 	*dataset << endl;
 
