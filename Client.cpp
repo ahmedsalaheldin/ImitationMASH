@@ -44,7 +44,7 @@ void writeDataset(ofstream* dataset,ofstream* target, unsigned char*data, string
 }
 
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
 	const int width = 120; //width of frame
 	const int height = 90; //height of frame
@@ -53,6 +53,7 @@ int main(int argc, char** argv)
 	int classlimit =50000;
 	bool writeflag =0; 
  	int counter=0 , timeOut = 500 , numFinish=0; //time counter perlevel  time out =500 for flag, much larger for line 
+	bool predictFlag=0; // decide to use ground truth or agent predictions
 	ofstream dataset("dataset.csv");
 	ofstream target("target.csv");
 	ifstream features;
@@ -134,19 +135,24 @@ int main(int argc, char** argv)
 	/////START PLAYING///////////////
 	/////////////////////////////////
 
-	cout<<"in start playing"<<endl;
+	cout<<argc <<"    "<<argv[1] <<endl;
 
 	arg.clear();
 	arg.add("main");
 	for(int i=0; i<1000;i++) //number of rounds
 	{	
-		cout<<"in for"<<endl;
-		bool predictFlag =1; // decide to use ground truth or agent predictions
 		counter=0; // number of frames elapsed in a round
 		while(*strResponse!= "FINISHED" && counter < timeOut && *strResponse!= "FAILED") // while the round hasn't failed or succeeded yet, and time hasn't run out
-		{
-			cout<<"in while"<<endl;	
-			cout<<"strResponse  "<<*strResponse<<endl;
+		{	
+			if(argc > 1)
+			{
+				string str(argv[1]);
+				if(str=="-p")
+				{
+					predictFlag=1;
+				}
+			}
+			cout<<"predictFLAG =  "<<predictFlag<<endl;
 			c->sendCommand("GET_VIEW",arg); // get image frame from the simulator
 			c->waitResponse(strResponse, arguments);
 			c->waitData(data, 8);
@@ -161,7 +167,7 @@ int main(int argc, char** argv)
 ///////////////////////////////////////////////////////////////////////////////////////////////	
 if(predictFlag)
 {
-			cout<<"in make prediction"<<endl;
+
 			//fill message
 			float average;
 
@@ -214,7 +220,7 @@ if(predictFlag)
 			
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////		
-			cout<<"in send predciction"<<endl;
+
 			// send an action to the mash-simulator server
 			if (predictFlag == 0)
 			{
