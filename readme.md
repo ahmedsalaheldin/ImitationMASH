@@ -17,15 +17,21 @@ This repository consists of a number of modules.
 -The agent Client which interacts with the simulation and prediction servers.
 
 A typical workflow of the system looks like this:
+
 	-Data collection
+
 		-A client connects to the simulation server
 		-The client receives frames from the server along with the optimal actions to take
 		-The client saves the observation and action pair to the training dataset
 		-After a sufficient amount of training samples is collected this process is terminated
+
 	-Training a model
+
 		-The training script uses the saved dataset to train a neural network.
 		-The trained model is saved.
+
 	-Performing the task
+
 		-A client connects to the simulation server
 		-The client also connects to a prediction server which loads the saved neural network.
 		-The client receives a frame from the simulator and sends it to the prediction server.
@@ -76,7 +82,7 @@ https://github.com/zeromq/cppzmq/blob/master/zmq.hpp
 
 ## Building
 
-run scrip.sh to download the dependecies, build them and build the agent client
+run script.sh to download the dependecies, build them and build the agent client
 ImitationMASH$ ./script
 
 ## Running
