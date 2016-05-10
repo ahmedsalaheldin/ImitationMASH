@@ -212,7 +212,7 @@ def predict(instance):
 	pred = pred_model(instance)
 
 	###if using active learning###
-	if len(sys.argv>1):
+	if len(sys.argv)>1:
 		conf = get_conf(instance)[0]
 		ent= entropy(conf)
 
