@@ -122,19 +122,14 @@ def relu(x):
     return theano.tensor.switch(x<0, 0, x)
 
 def evaluate_lenet5(learning_rate=0.001, n_epochs=500,
-                    dataset='mnist.pkl.gz',
                     nkerns=[20, 50, 70], batch_size=300):
-    """ Demonstrates lenet on MNIST dataset
-
+    """ 
     :type learning_rate: float
     :param learning_rate: learning rate used (factor for the stochastic
                           gradient)
 
     :type n_epochs: int
     :param n_epochs: maximal number of epochs to run the optimizer
-
-    :type dataset: string
-    :param dataset: path to the dataset used for training /testing (MNIST here)
 
     :type nkerns: list of ints
     :param nkerns: number of kernels on each layer
@@ -149,9 +144,12 @@ def evaluate_lenet5(learning_rate=0.001, n_epochs=500,
     tname = 'target.csv'    # file contatining actions
     nname = 'params.pickle' # file to write the trained network parameters
 
-    n_train_batches=20794 / batch_size
-    n_valid_batches=20794 / batch_size
-    n_test_batches =40000 / batch_size
+    testdata = dname	    #test data 
+    testtarget = tname      #test data
+
+    n_train_batches=20000 / batch_size
+    n_valid_batches=20000 / batch_size
+    n_test_batches =20000 / batch_size
 
 
 
@@ -260,7 +258,7 @@ def evaluate_lenet5(learning_rate=0.001, n_epochs=500,
 
 
 
-    
+    #To load a trained network
     ########set params from pickle file ##########
     #If initializing the weights using previously trained weights
     '''with open('params.pickle', 'r') as f:
@@ -281,9 +279,9 @@ def evaluate_lenet5(learning_rate=0.001, n_epochs=500,
     updateparams(1)
 	'''
     #############################################
-
-    dfv= open('datasetL2ConfAug.csv', 'rt')
-    tfv= open('targetL2ConfAug.csv', 'rt')  
+    ##evaluate network before training
+    '''dfv= open(dname, 'rt')
+    tfv= open(tname, 'rt')  
     datasetv = csv.reader(dfv, delimiter=',')
     targetv = csv.reader(tfv, delimiter=',')
 
@@ -296,7 +294,7 @@ def evaluate_lenet5(learning_rate=0.001, n_epochs=500,
 
     this_validation_loss = numpy.mean(validation_losses)
     print "random valid score = " , this_validation_loss*100.
-    print "random networks score = " , validation_losses[1:10]
+    print "random networks score = " , validation_losses[1:10]'''
 
 
 
@@ -327,8 +325,8 @@ def evaluate_lenet5(learning_rate=0.001, n_epochs=500,
     while (epoch < n_epochs) and (not done_looping):
         epoch = epoch + 1
 
-	dftr= open('datasetL2ConfAug.csv', 'rt')
-	tftr= open('targetL2ConfAug.csv', 'rt')  
+	dftr= open(dname, 'rt')
+	tftr= open(tname, 'rt')  
 	datasettr = csv.reader(dftr, delimiter=',')
 	targettr = csv.reader(tftr, delimiter=',')
 
@@ -349,8 +347,8 @@ def evaluate_lenet5(learning_rate=0.001, n_epochs=500,
             if (iter + 1) % validation_frequency == 0:
 
                 # compute zero-one loss on validation set
-		dfv= open('datasetL2ConfAug.csv', 'rt')
-		tfv= open('targetL2ConfAug.csv', 'rt')  
+		dfv= open(dname, 'rt')
+		tfv= open(tname, 'rt')  
 		datasetv = csv.reader(dfv, delimiter=',')
 		targetv = csv.reader(tfv, delimiter=',')
 		validation_losses = []
@@ -379,14 +377,14 @@ def evaluate_lenet5(learning_rate=0.001, n_epochs=500,
                     best_iter = iter
 					
 		    #save the trained weights
-		    with open('params.pickle', 'w') as f:
+		    with open(nname, 'w') as f:
     			 pickle.dump(params, f)
 
                     # test it on the test set
 		    print "test model index" , i
 		    print "test model batches" , batch_size
 
-		    if testdata!=null:
+		    if testdata: # if testing
 			    dft= open(testdata, 'rt')
 			    tft= open(testtarget, 'rt')  
 			    datasett = csv.reader(dft, delimiter=',')

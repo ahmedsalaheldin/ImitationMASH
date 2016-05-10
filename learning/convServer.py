@@ -105,13 +105,11 @@ def relu(x):
 #################################################################################
 #################################################################################
 
-learning_rate=0.0001
-n_epochs=500
-dataset='mnist.pkl.gz'
+
 nkerns=[20, 50, 70]
 batch_size=1
 
-nname='params20000.pickle' # file containing parameters of trained network
+nname='params.pickle' # file containing parameters of trained network
 
 rng = numpy.random.RandomState(23455)
 
@@ -214,11 +212,12 @@ def predict(instance):
 	pred = pred_model(instance)
 
 	###if using active learning###
-	#conf = get_conf(instance)[0]
-	#ent= entropy(conf)
+	if len(sys.argv>1):
+		conf = get_conf(instance)[0]
+		ent= entropy(conf)
 
-	#if ent>0.9:
-	#	return "QUERY"
+		if sys.argv[1]=="-a" and ent>0.9:
+			return "QUERY"
 
 	if pred[0]==0:
 		return "TURN_LEFT"
