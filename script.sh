@@ -3,7 +3,7 @@ git submodule init
 git submodule update
 
 #copy network files to relevant directories
-cp Trained\ networks/params6000.pickle DeepLearningTutorials/
+cp Trained\ networks/paramsFlag.pickle DeepLearningTutorials/
 cp learning/{ImitationCNN.py,convServer.py} DeepLearningTutorials/code/
 #replace modified Deep RL script
 
